@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết phòng - PhongTro</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="room-detail.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="navbar-logo">
+      <span class="logo-icon">🏠</span> PhongTro
+    </a>
+    <div class="navbar-nav">
+      <a href="home.html" class="nav-link">Trang chủ</a>
+      <a href="search.html" class="nav-link">Tìm phòng</a>
+    </div>
+    <div class="navbar-actions" id="navActions"></div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <span><a href="home.html">Trang chủ</a></span>
+    <span class="sep">›</span>
+    <span><a href="search.html">Tìm phòng</a></span>
+    <span class="sep">›</span>
+    <span id="breadcrumbName">Chi tiết phòng</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container detail-layout" id="detailContent">
+  <div class="loading-section"><div class="spinner"></div><span>Đang tải thông tin phòng...</span></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🏠 PhongTro</div>
+      <p>Nền tảng tìm kiếm và đặt phòng trọ hàng đầu Việt Nam.</p>
+    </div>
+    <div class="footer-col"><h4>Dịch vụ</h4><ul><li><a href="search.html">Tìm phòng</a></li></ul></div>
+    <div class="footer-col"><h4>Hỗ trợ</h4><ul><li><a href="#">Liên hệ</a></li></ul></div>
+    <div class="footer-col"><h4>Pháp lý</h4><ul><li><a href="#">Điều khoản</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PhongTro.</span><span>Made with ❤️ in Vietnam</span>
+  </div>
+</footer>
+
+<script src="api.js"></script>
+<script src="room-detail.js"></script>
+</body>
+</html>

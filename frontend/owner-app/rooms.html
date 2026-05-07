@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý phòng trọ - PhongTro Owner</title>
+  <link rel="stylesheet" href="owner.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">🚪 Quản lý phòng trọ</div>
+        <div class="topbar-sub">Thêm, sửa, xoá phòng trọ của bạn</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" onclick="openModal()">+ Thêm phòng mới</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Filter bar -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+        <input class="form-input" id="filterName" placeholder="🔍 Tìm theo tên phòng..." style="max-width:260px" oninput="filterRooms()">
+        <select class="form-select" id="filterStatus" style="max-width:180px" onchange="filterRooms()">
+          <option value="">Tất cả trạng thái</option>
+          <option value="available">Còn trống</option>
+          <option value="rented">Đã thuê</option>
+          <option value="pending">Chờ duyệt</option>
+          <option value="unavailable">Không có sẵn</option>
+        </select>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">Danh sách phòng</div>
+            <div class="table-sub" id="roomCount">Đang tải...</div>
+          </div>
+        </div>
+        <div id="roomsTableWrap">
+          <div class="loading-row"><div class="spinner"></div><span>Đang tải...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa phòng -->
+<div class="modal-overlay hidden" id="roomModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title"><span id="modalIcon">➕</span> <span id="modalTitle">Thêm phòng mới</span></div>
+    <div id="modalAlert"></div>
+    <div class="form-group">
+      <label class="form-label">Tên phòng</label>
+      <input class="form-input" id="fName" placeholder="VD: Phòng 101">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label class="form-label">Giá/tháng (VNĐ)</label>
+        <input class="form-input" id="fPrice" type="number" min="0" placeholder="3500000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Số lượng phòng</label>
+        <input class="form-input" id="fQty" type="number" min="1" placeholder="1">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Trạng thái</label>
+      <select class="form-select" id="fStatus">
+        <option value="available">Còn trống</option>
+        <option value="rented">Đã thuê</option>
+        <option value="pending">Chờ duyệt</option>
+        <option value="unavailable">Không có sẵn</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Thuộc tòa nhà (Property ID)</label>
+      <select class="form-select" id="fPropertyId">
+        <option value="">— Chọn tòa nhà —</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Huỷ</button>
+      <button class="btn btn-primary" id="btnSave" onclick="saveRoom()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
+<script src="owner-api.js"></script>
+<script src="owner-layout.js"></script>
+<script src="rooms.js"></script>
+</body>
+</html>

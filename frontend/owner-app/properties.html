@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý tòa nhà - PhongTro Owner</title>
+  <link rel="stylesheet" href="owner.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">🏢 Quản lý tòa nhà</div>
+        <div class="topbar-sub">Thêm, sửa, xoá tòa nhà của bạn</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" onclick="openModal()">+ Thêm tòa nhà</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Filter bar -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+        <input class="form-input" id="filterName" placeholder="🔍 Tìm theo tên tòa nhà..." style="max-width:280px" oninput="filterProperties()">
+        <select class="form-select" id="filterCity" style="max-width:200px" onchange="filterProperties()">
+          <option value="">Tất cả thành phố</option>
+        </select>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">Danh sách tòa nhà</div>
+            <div class="table-sub" id="propCount">Đang tải...</div>
+          </div>
+        </div>
+        <div id="propsTableWrap">
+          <div class="loading-row"><div class="spinner"></div><span>Đang tải...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa tòa nhà -->
+<div class="modal-overlay hidden" id="propModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title"><span id="modalIcon">➕</span> <span id="modalTitle">Thêm tòa nhà mới</span></div>
+    <div id="modalAlert"></div>
+    <div class="form-group">
+      <label class="form-label">Tên tòa nhà</label>
+      <input class="form-input" id="fName" placeholder="VD: Chung cư An Bình">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label class="form-label">Thành phố</label>
+        <input class="form-input" id="fCity" placeholder="VD: Hồ Chí Minh">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Trạng thái</label>
+        <select class="form-select" id="fStatus">
+          <option value="active">Đang hoạt động</option>
+          <option value="inactive">Tạm ngưng</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Địa chỉ</label>
+      <input class="form-input" id="fAddress" placeholder="VD: 123 Nguyễn Văn Cừ, Q.5">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Huỷ</button>
+      <button class="btn btn-primary" id="btnSave" onclick="saveProperty()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
+<script src="owner-api.js"></script>
+<script src="owner-layout.js"></script>
+<script src="properties.js"></script>
+</body>
+</html>
