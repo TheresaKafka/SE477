@@ -8,16 +8,7 @@
  * - localhost / 127.0.0.1 / file:// → http://localhost:3000
  * - GitHub Pages / production      → đọc <meta name="api-base"> hoặc cùng origin
  */
-function getBaseUrl() {
-  const host = window.location.hostname;
-  if (host === 'localhost' || host === '127.0.0.1' || host === '') {
-    return 'http://localhost:3000';
-  }
-  const metaEl = document.querySelector('meta[name="api-base"]');
-  if (metaEl && metaEl.content) return metaEl.content.replace(/\/$/, '');
-  return `${window.location.protocol}//${window.location.hostname}`;
-}
-const BASE_URL = getBaseUrl();
+const BASE_URL = '/api';
 
 const OwnerApi = {
   getToken() { return localStorage.getItem('owner_token'); },

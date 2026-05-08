@@ -131,7 +131,7 @@ async function cancelOrder(orderId) {
   if (!confirm('Bạn có chắc muốn huỷ đơn này không?')) return;
   try {
     // PATCH /orders/:id  with status = cancelled
-    await fetch(`http://localhost:3000/orders/${orderId}`, {
+    await fetch(`/api/orders/${orderId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

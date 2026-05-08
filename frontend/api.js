@@ -2,7 +2,7 @@
  * api.js — Centralized API layer for PhongTro platform
  * All backend calls go through here, JWT is attached automatically.
  */
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = '/api';
 
 const Api = {
   // ─── Helpers ────────────────────────────────────────────────────────────────

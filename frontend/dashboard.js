@@ -3,7 +3,7 @@
    ERD-enforced Property → Room Management
    =================================================== */
 
-const API = 'http://localhost:3000';
+const API = '/api';
 
 // ─── Auth Guard ───────────────────────────────────────
 function getAuthToken() {
