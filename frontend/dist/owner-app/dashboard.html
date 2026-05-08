@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng quan - PhongTro Owner</title>
+  <link rel="stylesheet" crossorigin href="/assets/owner-A7itL_N9.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">📊 Tổng quan</div>
+        <div class="topbar-sub">Chào mừng trở lại, <span id="ownerName">Owner</span>!</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" onclick="window.location.href='rooms.html'">+ Thêm phòng</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Stats -->
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><div class="stat-icon-box blue">🏢</div><div><div class="stat-value" id="statProps">—</div><div class="stat-label">Tòa nhà</div></div></div>
+        <div class="stat-card"><div class="stat-icon-box green">🚪</div><div><div class="stat-value" id="statRooms">—</div><div class="stat-label">Phòng trọ</div></div></div>
+        <div class="stat-card"><div class="stat-icon-box orange">📋</div><div><div class="stat-value" id="statOrders">—</div><div class="stat-label">Đơn đặt</div></div></div>
+        <div class="stat-card"><div class="stat-icon-box purple">⏳</div><div><div class="stat-value" id="statPending">—</div><div class="stat-label">Chờ xác nhận</div></div></div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">📋 Đơn đặt phòng gần đây</div>
+            <div class="table-sub">Các đơn đặt phòng mới nhất</div>
+          </div>
+          <a href="orders.html" class="btn btn-ghost btn-sm">Xem tất cả →</a>
+        </div>
+        <div id="recentOrders">
+          <div class="loading-row"><div class="spinner"></div><span>Đang tải...</span></div>
+        </div>
+      </div>
+
+      <!-- Recent Rooms -->
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">🚪 Phòng trọ của bạn</div>
+            <div class="table-sub">Danh sách phòng hiện có</div>
+          </div>
+          <a href="rooms.html" class="btn btn-ghost btn-sm">Quản lý →</a>
+        </div>
+        <div id="recentRooms">
+          <div class="loading-row"><div class="spinner"></div><span>Đang tải...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="owner-api.js"></script>
+<script src="owner-layout.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý đơn đặt - PhongTro Owner</title>
+  <link rel="stylesheet" crossorigin href="/assets/owner-A7itL_N9.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">📋 Quản lý đơn đặt phòng</div>
+        <div class="topbar-sub">Xác nhận hoặc huỷ các đơn đặt phòng</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Status Tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:20px;background:var(--surface);border-radius:var(--radius);padding:6px;border:1px solid var(--border)">
+        <button class="btn btn-ghost" id="tab-all" onclick="setTab('all')">Tất cả</button>
+        <button class="btn" id="tab-pending" onclick="setTab('pending')">⏳ Chờ xác nhận</button>
+        <button class="btn btn-ghost" id="tab-confirmed" onclick="setTab('confirmed')">✅ Đã xác nhận</button>
+        <button class="btn btn-ghost" id="tab-cancelled" onclick="setTab('cancelled')">❌ Đã huỷ</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">Danh sách đơn đặt</div>
+            <div class="table-sub" id="orderCount">Đang tải...</div>
+          </div>
+        </div>
+        <div id="ordersTableWrap">
+          <div class="loading-row"><div class="spinner"></div><span>Đang tải...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="owner-api.js"></script>
+<script src="owner-layout.js"></script>
+<script src="orders.js"></script>
+</body>
+</html>

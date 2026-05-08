@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhongTro - Chào mừng</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0770cd 0%, #004f9e 60%, #001f5b 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .landing {
+      text-align: center;
+      color: white;
+      max-width: 720px;
+      width: 100%;
+    }
+    .logo { font-size: 48px; margin-bottom: 8px; }
+    .brand { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+    .tagline { font-size: 16px; color: rgba(255,255,255,.75); margin-bottom: 48px; }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 24px;
+      padding: 36px 28px;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .card:hover {
+      background: rgba(255,255,255,.2);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .card-icon { font-size: 52px; }
+    .card-title { font-size: 20px; font-weight: 800; }
+    .card-desc  { font-size: 13px; color: rgba(255,255,255,.75); line-height: 1.6; }
+    .card-btn {
+      margin-top: 8px;
+      padding: 10px 24px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 2px solid rgba(255,255,255,.5);
+      color: white;
+      background: transparent;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+    }
+    .card:hover .card-btn { background: white; color: #0770cd; border-color: white; }
+    .card.user-card  { border-top: 3px solid #ff6600; }
+    .card.owner-card { border-top: 3px solid #10b981; }
+    @media (max-width: 500px) {
+      .cards { grid-template-columns: 1fr; }
+      .brand { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing">
+    <div class="logo">🏠</div>
+    <div class="brand">PhongTro</div>
+    <p class="tagline">Chọn vai trò của bạn để tiếp tục</p>
+
+    <div class="cards">
+      <a class="card user-card" href="user-app/home.html">
+        <div class="card-icon">🧳</div>
+        <div class="card-title">Tôi muốn thuê phòng</div>
+        <p class="card-desc">Tìm kiếm, xem chi tiết và đặt phòng trọ nhanh chóng — giống Traveloka</p>
+        <button class="card-btn">Vào trang tìm phòng →</button>
+      </a>
+      <a class="card owner-card" href="owner-app/index.html">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">Tôi là chủ trọ</div>
+        <p class="card-desc">Quản lý tòa nhà, phòng trọ, đơn đặt và doanh thu của bạn</p>
+        <button class="card-btn">Vào trang quản lý →</button>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Smart redirect: if already logged in as USER → user-app, as OWNER → owner-app
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (user && user.role === 'OWNER') {
+      window.location.href = 'owner-app/dashboard.html';
+    } else if (user && user.role) {
+      window.location.href = 'user-app/home.html';
+    }
+  </script>
+</body>
+</html>

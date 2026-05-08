@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tìm kiếm phòng trọ - PhongTro</title>
+  <meta name="description" content="Tìm kiếm phòng trọ theo địa điểm và giá cả">
+  <link rel="stylesheet" crossorigin href="/assets/search-D2AFG81Q.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-B73QwYR-.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="navbar-logo">
+      <span class="logo-icon">🏠</span> PhongTro
+    </a>
+    <div class="navbar-nav">
+      <a href="home.html" class="nav-link">Trang chủ</a>
+      <a href="search.html" class="nav-link active">Tìm phòng</a>
+    </div>
+    <div class="navbar-actions" id="navActions">
+      <button class="btn-nav-login" onclick="window.location.href='home.html'">Đăng nhập</button>
+      <button class="btn-nav-register" onclick="window.location.href='home.html'">Đăng ký</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SEARCH HEADER BAR -->
+<div class="search-header">
+  <div class="container">
+    <div class="search-bar-mini">
+      <div class="sbm-field">
+        <span class="sbm-icon">📍</span>
+        <input id="searchLocation" type="text" placeholder="Nhập địa điểm, thành phố...">
+      </div>
+      <div class="sbm-field">
+        <span class="sbm-icon">💰</span>
+        <input id="searchMinPrice" type="number" placeholder="Giá tối thiểu" min="0">
+      </div>
+      <div class="sbm-field">
+        <span class="sbm-icon">💰</span>
+        <input id="searchMaxPrice" type="number" placeholder="Giá tối đa" min="0">
+      </div>
+      <button class="btn btn-orange" onclick="applySearch()">🔍 Tìm kiếm</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container search-layout">
+
+  <!-- FILTERS SIDEBAR -->
+  <aside class="filters-panel">
+    <div class="filter-card">
+      <h3 class="filter-title">🎛️ Bộ lọc</h3>
+
+      <div class="filter-section">
+        <h4>Khoảng giá (VNĐ/tháng)</h4>
+        <div class="price-range">
+          <div class="form-group" style="margin-bottom:10px">
+            <input class="form-input" id="fMinPrice" type="number" placeholder="Từ" min="0">
+          </div>
+          <div class="form-group">
+            <input class="form-input" id="fMaxPrice" type="number" placeholder="Đến" min="0">
+          </div>
+        </div>
+        <div class="quick-prices">
+          <button class="qp-btn" onclick="setPrice(0, 2000000)">Dưới 2tr</button>
+          <button class="qp-btn" onclick="setPrice(2000000, 4000000)">2 - 4tr</button>
+          <button class="qp-btn" onclick="setPrice(4000000, 8000000)">4 - 8tr</button>
+          <button class="qp-btn" onclick="setPrice(8000000, '')">Trên 8tr</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h4>Trạng thái</h4>
+        <div class="checkbox-group">
+          <label class="cb-label"><input type="checkbox" checked value="available"> Còn phòng</label>
+          <label class="cb-label"><input type="checkbox" value="pending"> Chờ duyệt</label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h4>Sắp xếp theo</h4>
+        <select class="form-select" id="fSort" onchange="applySearch()">
+          <option value="">Mới nhất</option>
+          <option value="price_asc">Giá thấp → cao</option>
+          <option value="price_desc">Giá cao → thấp</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="applySearch()">Áp dụng</button>
+      <button class="btn btn-outline" style="width:100%;margin-top:8px" onclick="resetFilters()">Đặt lại</button>
+    </div>
+  </aside>
+
+  <!-- RESULTS -->
+  <main class="results-panel">
+    <div class="results-topbar">
+      <div id="resultCount" class="result-count">Đang tải...</div>
+      <div class="sort-row">
+        <span>Sắp xếp:</span>
+        <select class="form-select" id="topSort" style="width:auto;padding:6px 12px" onchange="syncSort(this.value)">
+          <option value="">Mới nhất</option>
+          <option value="price_asc">Giá thấp → cao</option>
+          <option value="price_desc">Giá cao → thấp</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="roomsGrid" class="results-grid">
+      <div class="loading-section"><div class="spinner"></div><span>Đang tìm kiếm...</span></div>
+    </div>
+
+    <div id="pagination" class="pagination"></div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🏠 PhongTro</div>
+      <p>Nền tảng tìm kiếm và đặt phòng trọ hàng đầu Việt Nam.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Dịch vụ</h4>
+      <ul><li><a href="search.html">Tìm phòng trọ</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hỗ trợ</h4>
+      <ul><li><a href="#">Liên hệ</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pháp lý</h4>
+      <ul><li><a href="#">Điều khoản</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PhongTro. All rights reserved.</span>
+    <span>Made with ❤️ in Vietnam</span>
+  </div>
+</footer>
+
+<script src="api.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

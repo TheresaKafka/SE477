@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt phòng của tôi - PhongTro</title>
+  <link rel="stylesheet" crossorigin href="/assets/booking-BGCpuzRK.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-B73QwYR-.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="navbar-logo">
+      <span class="logo-icon">🏠</span> PhongTro
+    </a>
+    <div class="navbar-nav">
+      <a href="home.html" class="nav-link">Trang chủ</a>
+      <a href="search.html" class="nav-link">Tìm phòng</a>
+      <a href="booking.html" class="nav-link active">Đặt phòng của tôi</a>
+    </div>
+    <div class="navbar-actions" id="navActions"></div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <h1>📋 Đặt phòng của tôi</h1>
+    <p>Quản lý tất cả các phòng bạn đã đặt</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top:32px;padding-bottom:60px">
+  <!-- Guard: not logged in -->
+  <div id="authGuard" class="hidden">
+    <div class="auth-required-card">
+      <div style="font-size:60px;margin-bottom:16px">🔐</div>
+      <h2>Bạn chưa đăng nhập</h2>
+      <p>Vui lòng đăng nhập để xem lịch sử đặt phòng của bạn</p>
+      <a href="home.html" class="btn btn-primary btn-lg" style="margin-top:20px">Đăng nhập ngay</a>
+    </div>
+  </div>
+
+  <!-- Bookings content -->
+  <div id="bookingsContent" class="hidden">
+    <!-- Summary Cards -->
+    <div class="summary-cards" id="summaryCards">
+      <div class="sum-card sum-total">
+        <div class="sum-icon">📦</div>
+        <div><div class="sum-num" id="totalOrders">—</div><div class="sum-label">Tổng đơn đặt</div></div>
+      </div>
+      <div class="sum-card sum-pending">
+        <div class="sum-icon">⏳</div>
+        <div><div class="sum-num" id="pendingOrders">—</div><div class="sum-label">Chờ xác nhận</div></div>
+      </div>
+      <div class="sum-card sum-confirmed">
+        <div class="sum-icon">✅</div>
+        <div><div class="sum-num" id="confirmedOrders">—</div><div class="sum-label">Đã xác nhận</div></div>
+      </div>
+      <div class="sum-card sum-cancelled">
+        <div class="sum-icon">❌</div>
+        <div><div class="sum-num" id="cancelledOrders">—</div><div class="sum-label">Đã huỷ</div></div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="booking-tabs" id="bookingTabs">
+      <button class="b-tab active" data-status="all" onclick="filterOrders('all', this)">Tất cả</button>
+      <button class="b-tab" data-status="pending" onclick="filterOrders('pending', this)">Chờ xác nhận</button>
+      <button class="b-tab" data-status="confirmed" onclick="filterOrders('confirmed', this)">Đã xác nhận</button>
+      <button class="b-tab" data-status="cancelled" onclick="filterOrders('cancelled', this)">Đã huỷ</button>
+    </div>
+
+    <!-- Orders List -->
+    <div id="ordersList"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🏠 PhongTro</div>
+      <p>Nền tảng tìm kiếm và đặt phòng trọ hàng đầu Việt Nam.</p>
+    </div>
+    <div class="footer-col"><h4>Dịch vụ</h4><ul><li><a href="search.html">Tìm phòng</a></li></ul></div>
+    <div class="footer-col"><h4>Hỗ trợ</h4><ul><li><a href="#">Liên hệ</a></li></ul></div>
+    <div class="footer-col"><h4>Pháp lý</h4><ul><li><a href="#">Điều khoản</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PhongTro.</span><span>Made with ❤️ in Vietnam</span>
+  </div>
+</footer>
+
+<script src="api.js"></script>
+<script src="booking.js"></script>
+</body>
+</html>

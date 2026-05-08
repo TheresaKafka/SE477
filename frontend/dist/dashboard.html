@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentEase – Rental Management System</title>
+  <meta name="description" content="Manage your rental properties and rooms with ease. ERD-based system enforcing property → room hierarchy." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" crossorigin href="/assets/dashboard-VIbKwfDs.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🏠</div>
+      <span class="brand-name">RentEase</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" id="nav-properties" href="#" onclick="showPage('properties'); return false;">
+        <span class="nav-icon">🏢</span>
+        <span class="nav-label">Properties</span>
+        <span class="nav-badge" id="badge-properties">0</span>
+      </a>
+      <a class="nav-item" id="nav-rooms" href="#" onclick="showPage('rooms'); return false;">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-label">Rooms</span>
+        <span class="nav-badge" id="badge-rooms">0</span>
+      </a>
+      <a class="nav-item" id="nav-overview" href="#" onclick="showPage('overview'); return false;">
+        <span class="nav-icon">🗂️</span>
+        <span class="nav-label">ERD View</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" class="nav-item" onclick="logout(); return false;">
+        <span class="nav-icon">🔐</span>
+        <span class="nav-label">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="breadcrumb">
+          <span id="page-title">Properties</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-user">
+          <span class="user-avatar">👤</span>
+          <span id="topbar-user-email" class="user-email">User</span>
+        </div>
+        <div class="status-indicator">
+          <span class="status-dot" id="api-status-dot"></span>
+          <span id="api-status-text">Connecting...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Alert Banner -->
+    <div class="alert-banner hidden" id="alert-banner">
+      <span id="alert-message"></span>
+      <button onclick="hideAlert()">✕</button>
+    </div>
+
+    <!-- ============= PAGE: PROPERTIES ============= -->
+    <section class="page active" id="page-properties">
+      <div class="page-header">
+        <div>
+          <h1>Property Management</h1>
+          <p class="page-subtitle">Create and manage your rental properties</p>
+        </div>
+      </div>
+
+      <div class="two-col-layout">
+        <!-- Create Form -->
+        <div class="card form-card">
+          <div class="card-header">
+            <h2>➕ Add New Property</h2>
+          </div>
+          <form id="propertyForm" class="form">
+            <div class="form-group">
+              <label for="prop-name">Property Name <span class="required">*</span></label>
+              <input type="text" id="prop-name" placeholder="e.g. Sunrise Apartments" required />
+            </div>
+            <div class="form-group">
+              <label for="prop-address">Address <span class="required">*</span></label>
+              <input type="text" id="prop-address" placeholder="e.g. 123 Main Street" required />
+            </div>
+            <div class="form-group">
+              <label for="prop-city">City</label>
+              <input type="text" id="prop-city" placeholder="e.g. Ho Chi Minh City" />
+            </div>
+            <div class="form-group">
+              <label for="prop-status">Status</label>
+              <select id="prop-status">
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="prop-submit-btn">
+              <span class="btn-icon">🏢</span> Create Property
+            </button>
+          </form>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-col">
+          <div class="stat-card stat-blue">
+            <div class="stat-icon">🏢</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-total-properties">0</div>
+              <div class="stat-label">Total Properties</div>
+            </div>
+          </div>
+          <div class="stat-card stat-green">
+            <div class="stat-icon">🚪</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-total-rooms">0</div>
+              <div class="stat-label">Total Rooms</div>
+            </div>
+          </div>
+          <div class="stat-card stat-purple">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-avg-rooms">0</div>
+              <div class="stat-label">Avg Rooms / Property</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties List -->
+      <div class="card list-card">
+        <div class="card-header">
+          <h2>📋 Properties List</h2>
+          <button class="btn btn-ghost btn-sm" onclick="loadProperties()">🔄 Refresh</button>
+        </div>
+        <div id="properties-list">
+          <div class="empty-state" id="properties-empty">
+            <div class="empty-icon">🏗️</div>
+            <h3>No properties yet</h3>
+            <p>Create your first property using the form above.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= PAGE: ROOMS ============= -->
+    <section class="page" id="page-rooms">
+      <div class="page-header">
+        <div>
+          <h1>Room Management</h1>
+          <p class="page-subtitle">Add rooms under existing properties</p>
+        </div>
+      </div>
+
+      <!-- Warning: no properties -->
+      <div class="warning-banner hidden" id="no-property-warning">
+        <div class="warning-content">
+          <span class="warning-icon">⚠️</span>
+          <div>
+            <strong>No properties found!</strong>
+            <p>You must create a Property before adding rooms. The ERD requires Room → Property.</p>
+          </div>
+        </div>
+        <button class="btn btn-warning" onclick="showPage('properties')">Go to Properties →</button>
+      </div>
+
+      <div class="two-col-layout">
+        <!-- Create Form -->
+        <div class="card form-card">
+          <div class="card-header">
+            <h2>➕ Add New Room</h2>
+          </div>
+          <form id="roomForm" class="form">
+            <div class="form-group">
+              <label for="room-property">Select Property <span class="required">*</span></label>
+              <select id="room-property" required>
+                <option value="" disabled selected>— Select a Property —</option>
+              </select>
+              <span class="field-hint">Room must belong to an existing property</span>
+            </div>
+            <div class="form-group">
+              <label for="room-name">Room Name <span class="required">*</span></label>
+              <input type="text" id="room-name" placeholder="e.g. Room 101" required />
+            </div>
+            <div class="form-group">
+              <label for="room-price">Price (per month) <span class="required">*</span></label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="room-price" min="0" step="0.01" placeholder="0.00" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="room-quantity">Quantity</label>
+              <input type="number" id="room-quantity" min="1" value="1" />
+            </div>
+            <div class="form-group">
+              <label for="room-status">Status</label>
+              <select id="room-status">
+                <option value="available">Available</option>
+                <option value="occupied">Occupied</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="room-submit-btn">
+              <span class="btn-icon">🚪</span> Create Room
+            </button>
+          </form>
+        </div>
+
+        <!-- Rooms List -->
+        <div class="card list-card rooms-list-card">
+          <div class="card-header">
+            <h2>📋 Rooms List</h2>
+            <button class="btn btn-ghost btn-sm" onclick="loadRooms()">🔄 Refresh</button>
+          </div>
+          <div id="rooms-list">
+            <div class="empty-state" id="rooms-empty">
+              <div class="empty-icon">🚪</div>
+              <h3>No rooms yet</h3>
+              <p>Select a property and add rooms above.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= PAGE: ERD OVERVIEW ============= -->
+    <section class="page" id="page-overview">
+      <div class="page-header">
+        <div>
+          <h1>ERD View — Property → Room Tree</h1>
+          <p class="page-subtitle">Visual representation of the 1-to-N relationship</p>
+        </div>
+        <button class="btn btn-ghost" onclick="loadOverview()">🔄 Refresh</button>
+      </div>
+
+      <!-- ERD Legend -->
+      <div class="erd-legend">
+        <div class="legend-item">
+          <div class="legend-box legend-parent"></div>
+          <span>Property (Parent / 1 side)</span>
+        </div>
+        <div class="legend-line">━━━━━━◆</div>
+        <div class="legend-item">
+          <div class="legend-box legend-child"></div>
+          <span>Room (Child / N side)</span>
+        </div>
+        <div class="legend-note">One Property → Many Rooms</div>
+      </div>
+
+      <div id="erd-tree">
+        <div class="empty-state">
+          <div class="empty-icon">🗂️</div>
+          <h3>Loading ERD View...</h3>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon">🗑️</div>
+      <h3 id="modal-title">Delete Property?</h3>
+      <p id="modal-body">This will also delete all associated rooms.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger" id="modal-confirm-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

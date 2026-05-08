@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhongTro - Tìm phòng trọ dễ dàng</title>
+  <meta name="description" content="Tìm kiếm và đặt phòng trọ chất lượng cao trên khắp Việt Nam">
+  <link rel="stylesheet" crossorigin href="/assets/home-Dq2L64Am.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-B73QwYR-.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="navbar-logo">
+      <span class="logo-icon">🏠</span>
+      PhongTro
+    </a>
+    <div class="navbar-nav">
+      <a href="home.html" class="nav-link active">Trang chủ</a>
+      <a href="search.html" class="nav-link">Tìm phòng</a>
+    </div>
+    <div class="navbar-actions" id="navActions">
+      <button class="btn-nav-login" onclick="openModal('login')">Đăng nhập</button>
+      <button class="btn-nav-register" onclick="openModal('register')">Đăng ký</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <span class="hero-tag">✨ Nền tảng số 1 Việt Nam</span>
+      <h1>Tìm phòng trọ <span class="hero-highlight">ưng ý</span><br>chỉ trong vài giây</h1>
+      <p>Hàng nghìn phòng trọ chất lượng cao, giá tốt tại mọi thành phố</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <div class="search-tabs">
+        <button class="search-tab active">🏠 Phòng trọ</button>
+        <button class="search-tab">🏢 Căn hộ</button>
+        <button class="search-tab">🏡 Nhà nguyên căn</button>
+      </div>
+      <div class="search-form">
+        <div class="search-field">
+          <label>📍 Địa điểm</label>
+          <input id="heroLocation" type="text" placeholder="TP. Hồ Chí Minh, Hà Nội, Đà Nẵng...">
+        </div>
+        <div class="search-field">
+          <label>💰 Giá tối thiểu (VNĐ/tháng)</label>
+          <input id="heroMinPrice" type="number" placeholder="0" min="0">
+        </div>
+        <div class="search-field">
+          <label>💰 Giá tối đa (VNĐ/tháng)</label>
+          <input id="heroMaxPrice" type="number" placeholder="Không giới hạn" min="0">
+        </div>
+        <button class="search-btn" onclick="doSearch()">
+          🔍 Tìm kiếm
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">10,000+</span><span>Phòng trọ</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">500+</span><span>Tòa nhà</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">50+</span><span>Thành phố</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">98%</span><span>Hài lòng</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- POPULAR CITIES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Thành phố phổ biến</h2>
+        <p>Khám phá phòng trọ tại các thành phố lớn</p>
+      </div>
+    </div>
+    <div class="cities-grid">
+      <div class="city-card" onclick="searchCity('Hồ Chí Minh')">
+        <div class="city-img city-hcm"></div>
+        <div class="city-info"><h3>TP. Hồ Chí Minh</h3><p>2,400+ phòng</p></div>
+      </div>
+      <div class="city-card" onclick="searchCity('Hà Nội')">
+        <div class="city-img city-hn"></div>
+        <div class="city-info"><h3>Hà Nội</h3><p>1,800+ phòng</p></div>
+      </div>
+      <div class="city-card" onclick="searchCity('Đà Nẵng')">
+        <div class="city-img city-dn"></div>
+        <div class="city-info"><h3>Đà Nẵng</h3><p>900+ phòng</p></div>
+      </div>
+      <div class="city-card" onclick="searchCity('Cần Thơ')">
+        <div class="city-img city-ct"></div>
+        <div class="city-info"><h3>Cần Thơ</h3><p>450+ phòng</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED ROOMS -->
+<section class="section section-gray">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Phòng nổi bật</h2>
+        <p>Được đặt nhiều nhất tuần này</p>
+      </div>
+      <a href="search.html" class="btn btn-outline btn-sm">Xem tất cả →</a>
+    </div>
+    <div id="featuredRooms" class="rooms-grid">
+      <div class="loading-section"><div class="spinner"></div><span>Đang tải...</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section">
+  <div class="container">
+    <div class="section-header center">
+      <div>
+        <h2>Tại sao chọn PhongTro?</h2>
+        <p>Chúng tôi cam kết mang đến trải nghiệm tốt nhất</p>
+      </div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Tìm kiếm thông minh</h3>
+        <p>Lọc theo giá, vị trí, diện tích một cách chính xác</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Phòng đã xác thực</h3>
+        <p>Tất cả phòng đều được kiểm duyệt kỹ lưỡng</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Đặt phòng nhanh</h3>
+        <p>Chỉ vài click là đặt phòng thành công ngay lập tức</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Thanh toán bảo mật</h3>
+        <p>Giao dịch được mã hóa và bảo vệ tuyệt đối</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay hidden" id="authModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-tabs">
+      <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Đăng nhập</button>
+      <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Đăng ký</button>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="loginEmail" type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mật khẩu</label>
+        <input class="form-input" id="loginPassword" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" style="width:100%" id="btnLogin" onclick="doLogin()">Đăng nhập</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="hidden">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="regEmail" type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mật khẩu</label>
+        <input class="form-input" id="regPassword" type="password" placeholder="Tối thiểu 6 ký tự">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Xác nhận mật khẩu</label>
+        <input class="form-input" id="regConfirm" type="password" placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vai trò</label>
+        <select class="form-select" id="regRoleId">
+          <option value="1">Người thuê phòng</option>
+          <option value="2">Chủ nhà (OWNER)</option>
+        </select>
+      </div>
+      <button class="btn btn-orange" style="width:100%" id="btnRegister" onclick="doRegister()">Đăng ký</button>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🏠 PhongTro</div>
+      <p>Nền tảng tìm kiếm và đặt phòng trọ hàng đầu Việt Nam. Kết nối người thuê và chủ nhà một cách nhanh chóng, an toàn.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Dịch vụ</h4>
+      <ul>
+        <li><a href="search.html">Tìm phòng trọ</a></li>
+        <li><a href="#">Đăng tin</a></li>
+        <li><a href="#">Tư vấn</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hỗ trợ</h4>
+      <ul>
+        <li><a href="#">Trung tâm trợ giúp</a></li>
+        <li><a href="#">Liên hệ</a></li>
+        <li><a href="#">Báo cáo lỗi</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pháp lý</h4>
+      <ul>
+        <li><a href="#">Điều khoản dịch vụ</a></li>
+        <li><a href="#">Chính sách bảo mật</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PhongTro. All rights reserved.</span>
+    <span>Made with ❤️ in Vietnam</span>
+  </div>
+</footer>
+
+<script src="api.js"></script>
+<script src="home.js"></script>
+</body>
+</html>
