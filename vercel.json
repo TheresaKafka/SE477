@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pwd && ls -la && cd frontend && npm install && npm run build",
+  "buildCommand": "if [ -d \"frontend\" ]; then cd frontend; fi && npm install && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
