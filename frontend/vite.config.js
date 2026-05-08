@@ -15,6 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        role: resolve(__dirname, 'role.html'),
         dashboard: resolve(__dirname, 'dashboard.html'),
         booking: resolve(__dirname, 'booking.html'),
         home: resolve(__dirname, 'home.html'),
