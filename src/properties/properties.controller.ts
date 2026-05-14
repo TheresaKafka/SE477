@@ -8,6 +8,7 @@ import {
   Delete,
   Request,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PropertiesService } from './properties.service';
@@ -18,12 +19,17 @@ import { UpdatePropertyDto } from './dto/update-property.dto';
 export class PropertiesController {
   constructor(private readonly propertiesService: PropertiesService) {}
 
-  // 🔒 Requires JWT — extracts owner_id from token
+  /**
+   * Admin can pass owner_id in body.
+   * Non-admin authenticated users have owner_id injected from JWT.
+   */
   @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createPropertyDto: CreatePropertyDto, @Request() req: any) {
-    // Inject owner_id from the authenticated user's JWT payload
-    createPropertyDto.owner_id = req.user.userId;
+    // If owner_id not provided in body, fall back to the JWT user
+    if (!createPropertyDto.owner_id) {
+      createPropertyDto.owner_id = req.user.userId;
+    }
     return this.propertiesService.create(createPropertyDto);
   }
 
@@ -33,22 +39,22 @@ export class PropertiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.propertiesService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.propertiesService.findOne(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updatePropertyDto: UpdatePropertyDto,
   ) {
-    return this.propertiesService.update(+id, updatePropertyDto);
+    return this.propertiesService.update(id, updatePropertyDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.propertiesService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.propertiesService.remove(id);
   }
 }

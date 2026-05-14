@@ -21,9 +21,16 @@ import { SupabaseModule } from './supabase/supabase.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.VITE_SUPABASE_URL,
+      url: process.env.DATABASE_URL,
       autoLoadEntities: true,
-      synchronize: true, // Use synchronize for development to automatically create tables
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      extra: {
+        max: 5,
+        connectionTimeoutMillis: 10000,
+      },
     }),
 
     UsersModule,
@@ -40,4 +47,4 @@ import { SupabaseModule } from './supabase/supabase.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

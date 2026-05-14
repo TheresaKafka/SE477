@@ -1,4 +1,3 @@
-// 1. users.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -30,7 +29,12 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find({ relations: ['role'] });
+    const users = await this.userRepository.find({ relations: ['role'] });
+    // Strip password from response
+    return users.map((u) => {
+      const { password: _pw, ...safe } = u as any;
+      return safe as User;
+    });
   }
 
   async findOne(id: number): Promise<User> {
@@ -41,28 +45,44 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
-    return user;
+    const { password: _pw, ...safe } = user as any;
+    return safe as User;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.findOne(id);
+    const user = await this.userRepository.findOne({
+      where: { user_id: id },
+      relations: ['role'],
+    });
+    if (!user) throw new NotFoundException(`User with id ${id} not found`);
+
+    if (updateUserDto.email) user.email = updateUserDto.email;
+
     if (updateUserDto.password) {
       const salt = await bcrypt.genSalt();
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
+      user.password = await bcrypt.hash(updateUserDto.password, salt);
     }
-    this.userRepository.merge(user, updateUserDto);
-    return await this.userRepository.save(user);
+
+    if (updateUserDto.role_id) {
+      user.role = { role_id: updateUserDto.role_id } as Role;
+    }
+
+    await this.userRepository.save(user);
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
-    const user = await this.findOne(id);
+    const user = await this.userRepository.findOne({
+      where: { user_id: id },
+    });
+    if (!user) throw new NotFoundException(`User with id ${id} not found`);
     await this.userRepository.remove(user);
   }
 
   async findOneByEmail(email: string): Promise<User | null> {
     return await this.userRepository.findOne({
       where: { email },
-      relations: ['role'], // Lấy role để gắn vào JWT payload
+      relations: ['role'],
     });
   }
 }
